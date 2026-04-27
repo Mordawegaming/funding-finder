@@ -1,50 +1,47 @@
 const fs = require('fs');
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-
 if (!ANTHROPIC_API_KEY) {
-  console.error('ERROR: ANTHROPIC_API_KEY is not set.');
+  console.error('ERROR: ANTHROPIC_API_KEY not set.');
   process.exit(1);
 }
 
-const SYSTEM_PROMPT = `You are a UK charity funding expert helping a small charity (5 employees) in Thanet, Kent. They offer employment training, back-to-work programmes, CSCS construction training, first aid training, and community programmes.
+const SYSTEM_PROMPT = `You are a UK charity funding research expert. Search broadly for currently open UK charity grant funding opportunities across all sectors and sizes.
 
-Search for funding opportunities CURRENTLY OPEN in 2026. Return ONLY valid JSON, no markdown, no explanation:
+The charity using this tool is in Thanet, Kent with 5 employees offering employment training, back-to-work programmes, CSCS construction training, first aid training, and community programmes. But find ALL types of UK funding — they want to see the full landscape and filter it themselves.
+
+Search for 15-20 currently open opportunities covering local, regional and national funders of all sizes.
+
+Return ONLY raw JSON with no markdown, no code fences, just the JSON object:
 {
   "opportunities": [
     {
-      "name": "Funder name",
-      "description": "1-2 sentences on what it funds and why it fits",
+      "name": "Full funder or programme name",
+      "description": "2-3 sentence description of what they fund",
       "amount": "Grant range e.g. £2,000-£10,000",
-      "deadline": "Deadline or Rolling",
-      "tags": ["tag1", "tag2"],
-      "url": "https://apply.link"
+      "deadline": "Deadline date, Rolling, or Opens Month Year",
+      "tags": ["tag1", "tag2", "tag3"],
+      "url": "https://apply-link.com",
+      "match": "high or medium or explore",
+      "location_scope": "local or regional or national",
+      "size_category": "small or medium or large or major",
+      "fund_types": ["training", "employment", "community", "construction", "first-aid", "core-costs", "capital"],
+      "funder_priorities": "2-3 sentences on what this funder cares most about, their mission and key language they use",
+      "what_they_fund": "Specific description of what they will fund",
+      "what_they_dont_fund": "Specific description of what they will NOT fund",
+      "application_process": "How to apply, stages, timelines"
     }
   ],
-  "summary": "One sentence summary of today's funding landscape"
+  "summary": "One sentence overview of today's UK funding landscape for small training charities"
 }
 
-Include 6-10 real currently open opportunities only.`;
+Match: high=directly relevant to training/employment/community in Kent, medium=nationally relevant, explore=worth knowing about.
+Size: small=under £10k, medium=£10k-£50k, large=£50k-£100k, major=over £100k.
+Only include genuinely open opportunities.`;
 
 async function updateGrants() {
   console.log(`[${new Date().toISOString()}] Starting daily grant update...`);
-
-  const today = new Date().toLocaleDateString('en-GB', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-  });
-
-  const body = JSON.stringify({
-    model: 'claude-sonnet-4-5',
-    max_tokens: 2000,
-    system: SYSTEM_PROMPT,
-    tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-    messages: [{
-      role: 'user',
-      content: `Today is ${today}. Find currently open charity grant funding for a small training and employment charity in Thanet, Kent. Return JSON only.`
-    }]
-  });
-
-  console.log('Calling Claude API...');
+  const today = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -53,32 +50,29 @@ async function updateGrants() {
       'x-api-key': ANTHROPIC_API_KEY,
       'anthropic-version': '2023-06-01'
     },
-    body
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 4000,
+      system: SYSTEM_PROMPT,
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all currently open UK charity grant funding. Return detailed JSON only — no markdown.` }]
+    })
   });
 
-  console.log(`API response status: ${response.status}`);
-
-  if (!response.ok) {
-    const err = await response.text();
-    console.error('API error:', err);
-    throw new Error(`HTTP ${response.status}`);
-  }
+  console.log(`API status: ${response.status}`);
+  if (!response.ok) { const e = await response.text(); throw new Error(`HTTP ${response.status}: ${e}`); }
 
   const data = await response.json();
-  console.log('Response received, parsing...');
-
   const textBlocks = data.content.filter(b => b.type === 'text');
   if (!textBlocks.length) throw new Error('No text in response');
 
   const rawText = textBlocks.map(b => b.text).join('\n');
-  const cleaned = rawText.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  const cleaned = rawText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
   const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error('No JSON found in response');
+  if (!jsonMatch) throw new Error('No JSON found');
 
   const parsed = JSON.parse(jsonMatch[0]);
-  if (!parsed.opportunities || !Array.isArray(parsed.opportunities)) {
-    throw new Error('Invalid response structure');
-  }
+  if (!parsed.opportunities || !Array.isArray(parsed.opportunities)) throw new Error('Invalid structure');
 
   const output = {
     updated_at: new Date().toISOString(),
@@ -98,7 +92,7 @@ updateGrants().catch(err => {
     updated_at: new Date().toISOString(),
     error: true,
     opportunities: [],
-    summary: 'Daily update encountered an error. Please use the AI Search tab.'
+    summary: 'Daily update failed. Please try again.'
   }, null, 2));
   process.exit(1);
 });
