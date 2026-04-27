@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funding Finder — Thanet Training Charity</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --border: #e2e0da;
+      --border-strong: #c8c6be;
+      --text: #1a1a18;
+      --text-secondary: #5a5a56;
+      --text-muted: #8a8a84;
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-text: #0F6E56;
+      --amber: #BA7517;
+      --amber-light: #FAEEDA;
+      --amber-text: #854F0B;
+      --blue: #185FA5;
+      --blue-light: #E6F1FB;
+      --blue-text: #0C447C;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+    body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+    .wrapper { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    header { margin-bottom: 24px; }
+    .site-title { font-size: 22px; font-weight: 600; color: var(--text); }
+    .site-subtitle { font-size: 14px; color: var(--text-secondary); margin-top: 2px; }
+    .last-updated { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; margin-top: 10px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+    .dot.stale { background: var(--amber); }
+
+    .profile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px; }
+    .profile-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; color: var(--text-secondary); }
+
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+    .tab { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 16px; font-size: 14px; cursor: pointer; color: var(--text-secondary); margin-bottom: -1px; transition: all 0.15s; font-family: inherit; }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .section-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 12px; }
+
+    .funder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .funder-grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; transition: border-color 0.15s; }
+    .card:hover { border-color: var(--border-strong); }
+    .card.high { border-left: 3px solid var(--green); }
+    .card.medium { border-left: 3px solid var(--amber); }
+    .card.explore { border-left: 3px solid var(--border-strong); }
+
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+    .card-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+    .badge.high { background: var(--green-light); color: var(--green-text); }
+    .badge.medium { background: var(--amber-light); color: var(--amber-text); }
+    .badge.explore { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+    .badge.new { background: var(--blue-light); color: var(--blue-text); }
+
+    .card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border); }
+    .tag.new { background: var(--blue-light); color: var(--blue-text); border-color: #B5D4F4; }
+    .card-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+    .card-link { font-size: 12px; color: var(--blue); text-decoration: none; }
+    .card-link:hover { text-decoration: underline; }
+
+    .alert { background: var(--green-light); border-left: 3px solid var(--green); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--green-text); margin-bottom: 16px; line-height: 1.5; }
+    .alert.info { background: var(--blue-light); border-color: var(--blue); color: var(--blue-text); }
+    .alert.amber { background: var(--amber-light); border-color: var(--amber); color: var(--amber-text); }
+
+    .stats { display: flex; gap: 10px; margin-bottom: 16px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; flex: 1; text-align: center; }
+    .stat-n { font-size: 22px; font-weight: 700; color: var(--text); }
+    .stat-l { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .search-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+    .search-row { display: flex; gap: 8px; margin-top: 10px; }
+    .search-row input { flex: 1; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bg); color: var(--text); }
+    .search-row input:focus { outline: none; border-color: var(--blue); }
+    .btn { padding: 9px 18px; background: var(--text); color: #fff; border: none; border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; font-family: inherit; white-space: nowrap; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .btn-sm:hover { border-color: var(--border-strong); color: var(--text); }
+    .quick-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+    .ai-result { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; font-size: 14px; line-height: 1.7; color: var(--text); max-height: 550px; overflow-y: auto; }
+    .ai-result h3 { font-size: 15px; font-weight: 600; margin: 16px 0 6px; }
+    .ai-result h3:first-child { margin-top: 0; }
+    .ai-result ul { margin: 6px 0 10px 18px; }
+    .ai-result li { margin-bottom: 4px; }
+    .ai-result strong { font-weight: 600; }
+    .ai-result a { color: var(--blue); }
+
+    .loading { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 14px; padding: 20px; }
+    .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--text); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .resource-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .resource-grid { grid-template-columns: 1fr; } }
+    .resource-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+    .resource-card a { font-size: 14px; font-weight: 600; color: var(--blue); text-decoration: none; display: block; margin-bottom: 5px; }
+    .resource-card a:hover { text-decoration: underline; }
+    .resource-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    .api-note { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); text-align: center; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <div class="site-title">Funding Finder</div>
+    <div class="site-subtitle">Thanet, Kent · Training &amp; Employment Charity</div>
+    <div class="last-updated">
+      <div class="dot" id="freshness-dot"></div>
+      <span id="last-updated-text">Loading...</span>
+    </div>
+  </header>
+
+  <div class="profile">
+    <div class="profile-title">Your profile</div>
+    <div class="chips">
+      <span class="chip">Thanet, Kent</span>
+      <span class="chip">5 employees</span>
+      <span class="chip">Employment training</span>
+      <span class="chip">Back to work</span>
+      <span class="chip">CSCS construction</span>
+      <span class="chip">First aid training</span>
+      <span class="chip">Community programmes</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('curated', this)">Curated funders</button>
+    <button class="tab" onclick="switchTab('live', this)">Today's opportunities</button>
+    <button class="tab" onclick="switchTab('ai', this)">AI search</button>
+    <button class="tab" onclick="switchTab('resources', this)">Resources</button>
+  </div>
+
+  <!-- CURATED TAB -->
+  <div id="panel-curated" class="panel active">
+    <div class="alert">14 funders matched to your profile — updated daily at 8am. Sorted by relevance to Thanet and Kent-based training/employment charities.</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">6</div><div class="stat-l">High match</div></div>
+      <div class="stat"><div class="stat-n">5</div><div class="stat-l">Medium match</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Worth exploring</div></div>
+    </div>
+
+    <div class="section-label">High match — local &amp; employment-focused</div>
+    <div class="funder-grid" style="margin-bottom:16px">
+      <div class="card high">
+        <div class="card-header"><div class="card-name">Kent Community Foundation</div><span class="badge high">High</span></div>
+        <p class="card-desc">Kent's main community foundation with multiple funds open year-round. Strong focus on disadvantaged communities across Kent and Medway, including Thanet coastal areas.</p>
+        <div class="tags"><span class="tag">Kent-specific</span><span class="tag">Training</span><span class="tag">Employment</span><span class="tag">Community</span></div>
+        <div class="card-meta">Grants: £1,000–£50,000 · Rolling deadlines</div>
+        <a class="card-link" href="https://kentcf.org.uk/funding/" target="_blank">kentcf.org.uk/funding ↗</a>
+      </div>
+      <div class="card high">
+        <div class="card-header"><div class="card-name">Colyer-Fergusson Charitable Trust</div><span class="badge high">High</span></div>
+        <p class="card-desc">Kent-focused funder with a strong track record in Thanet. Has previously funded employment training, NEET support, and community projects directly in your area.</p>
+        <div class="tags"><span class="tag">Thanet history</span><span class="tag">NEET &amp; employment</span><span class="tag">Youth</span></div>
+        <div class="card-meta">Grants: £5,000–£50,000 · 2 rounds/year</div>
+        <a class="card-link" href="https://www.cfct.org.uk/apply/" target="_blank">cfct.org.uk/apply ↗</a>
+      </div>
+      <div class="card high">
+        <div class="card-header"><div class="card-name">UK Shared Prosperity Fund (Thanet DC)</div><span class="badge high">High</span></div>
+        <p class="card-desc">Thanet District Council distributes UKSPF funding to local VCSEs. Directly relevant to training, back-to-work, and community programmes. Contact them directly.</p>
+        <div class="tags"><span class="tag">Thanet-only</span><span class="tag">Back to work</span><span class="tag">Community</span></div>
+        <div class="card-meta">Email: sharedprosperity@thanet.gov.uk</div>
+        <a class="card-link" href="https://www.thanet.gov.uk/info-pages/community-champions-programme/" target="_blank">thanet.gov.uk ↗</a>
+      </div>
+      <div class="card high">
+        <div class="card-header"><div class="card-name">National Lottery Community Fund</div><span class="badge high">High</span></div>
+        <p class="card-desc">The UK's largest funder of community activity. Awards for All (up to £10k) is ideal for your size. Multiple programmes with rolling deadlines — apply year-round.</p>
+        <div class="tags"><span class="tag">Awards for All</span><span class="tag">Up to £10,000</span><span class="tag">Rolling</span></div>
+        <div class="card-meta">Awards for All: up to £10,000 · Rolling deadline</div>
+        <a class="card-link" href="https://www.tnlcommunityfund.org.uk/funding/programmes" target="_blank">tnlcommunityfund.org.uk ↗</a>
+      </div>
+      <div class="card high">
+        <div class="card-header"><div class="card-name">CITB — Construction Industry Training Board</div><span class="badge high">High</span></div>
+        <p class="card-desc">Directly relevant to your CSCS training offer. CITB funds construction skills training delivery including through third-party providers. Worth a direct call.</p>
+        <div class="tags"><span class="tag">CSCS-specific</span><span class="tag">Construction training</span></div>
+        <div class="card-meta">Varies by programme · Rolling applications</div>
+        <a class="card-link" href="https://www.citb.co.uk/grants-funding/" target="_blank">citb.co.uk/grants-funding ↗</a>
+      </div>
+      <div class="card high">
+        <div class="card-header"><div class="card-name">Groundwork Grassroots Grants</div><span class="badge high">High</span></div>
+        <p class="card-desc">Up to £2,000 for organisations in the top 15% most deprived areas. Thanet qualifies. Designed specifically for small orgs that struggle with mainstream funding routes.</p>
+        <div class="tags"><span class="tag">Deprived areas</span><span class="tag">Small orgs</span><span class="tag">Up to £2,000</span></div>
+        <div class="card-meta">Up to £2,000 · Expressions of interest open</div>
+        <a class="card-link" href="https://www.groundwork.org.uk/grants/" target="_blank">groundwork.org.uk ↗</a>
+      </div>
+    </div>
+
+    <div class="section-label">Medium match — national funders with good fit</div>
+    <div class="funder-grid" style="margin-bottom:16px">
+      <div class="card medium">
+        <div class="card-header"><div class="card-name">The King's Trust</div><span class="badge medium">Medium</span></div>
+        <p class="card-desc">Funds programmes helping young people into employment and skills. Partnership opportunities exist for charities delivering back-to-work and training.</p>
+        <div class="tags"><span class="tag">Youth employment</span><span class="tag">Partnerships</span></div>
+        <div class="card-meta">Partnership grants available</div>
+        <a class="card-link" href="https://www.kingstrust.org.uk/how-we-can-help/who-else/employment/grants-funding" target="_blank">kingstrust.org.uk ↗</a>
+      </div>
+      <div class="card medium">
+        <div class="card-header"><div class="card-name">Tudor Trust</div><span class="badge medium">Medium</span></div>
+        <p class="card-desc">Funds small and medium charities working with disadvantaged people. Supports both core costs and project costs for training and community organisations.</p>
+        <div class="tags"><span class="tag">Core costs</span><span class="tag">Disadvantaged communities</span></div>
+        <div class="card-meta">Grants: £5,000–£50,000</div>
+        <a class="card-link" href="https://tudortrust.org.uk/apply" target="_blank">tudortrust.org.uk ↗</a>
+      </div>
+      <div class="card medium">
+        <div class="card-header"><div class="card-name">Henry Smith Charity</div><span class="badge medium">Medium</span></div>
+        <p class="card-desc">Funds charities helping people in need. Employment, training, and community welfare are priority areas. Open to registered charities across England.</p>
+        <div class="tags"><span class="tag">Registered charities</span><span class="tag">Employment</span></div>
+        <div class="card-meta">Grants: £5,000–£100,000+</div>
+        <a class="card-link" href="https://www.henrysmithcharity.org.uk/apply-for-a-grant/" target="_blank">henrysmithcharity.org.uk ↗</a>
+      </div>
+      <div class="card medium">
+        <div class="card-header"><div class="card-name">Stronger Kent Communities</div><span class="badge medium">Medium</span></div>
+        <p class="card-desc">Infrastructure support body for VCSEs across Kent. Offers free funding signposting, capacity building, and a regularly updated funding bulletin.</p>
+        <div class="tags"><span class="tag">Kent VCSE support</span><span class="tag">Free signposting</span></div>
+        <div class="card-meta">Free support + small grants</div>
+        <a class="card-link" href="https://www.strongerkentcommunities.org.uk/" target="_blank">strongerkentcommunities.org.uk ↗</a>
+      </div>
+      <div class="card medium">
+        <div class="card-header"><div class="card-name">Esmée Fairbairn Foundation</div><span class="badge medium">Medium</span></div>
+        <p class="card-desc">One of the UK's largest independent funders. Supports employment, skills, and social inclusion. More suited once your organisation grows slightly larger.</p>
+        <div class="tags"><span class="tag">Skills &amp; employment</span><span class="tag">Larger grants</span></div>
+        <div class="card-meta">Grants: £30,000–£500,000</div>
+        <a class="card-link" href="https://esmeefairbairn.org.uk/how-we-fund/" target="_blank">esmeefairbairn.org.uk ↗</a>
+      </div>
+    </div>
+
+    <div class="section-label">Also worth exploring</div>
+    <div class="funder-grid">
+      <div class="card explore">
+        <div class="card-header"><div class="card-name">Community Wealth Fund</div><span class="badge explore">Explore</span></div>
+        <p class="card-desc">New fund targeting left-behind communities. Thanet is likely to qualify. Focuses on long-term community empowerment.</p>
+        <div class="tags"><span class="tag">Left-behind areas</span></div>
+        <a class="card-link" href="https://communitywealthfund.org.uk/" target="_blank">communitywealthfund.org.uk ↗</a>
+      </div>
+      <div class="card explore">
+        <div class="card-header"><div class="card-name">St John Ambulance Foundation</div><span class="badge explore">Explore</span></div>
+        <p class="card-desc">Relevant to your first aid training offer. May fund community first aid delivery to disadvantaged groups.</p>
+        <div class="tags"><span class="tag">First aid</span><span class="tag">Community health</span></div>
+        <a class="card-link" href="https://www.sja.org.uk/what-we-do/foundation/" target="_blank">sja.org.uk ↗</a>
+      </div>
+      <div class="card explore">
+        <div class="card-header"><div class="card-name">Pilgrim's Trust</div><span class="badge explore">Explore</span></div>
+        <p class="card-desc">Kent-connected funder supporting social welfare. Smaller, accessible grants for newer organisations.</p>
+        <div class="tags"><span class="tag">Kent funder</span><span class="tag">Social welfare</span></div>
+        <a class="card-link" href="https://www.thepilgrimstrust.com/" target="_blank">thepilgrimstrust.com ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE OPPORTUNITIES TAB (populated by daily update) -->
+  <div id="panel-live" class="panel">
+    <div id="live-content">
+      <div class="loading"><div class="spinner"></div>Loading today's opportunities...</div>
+    </div>
+  </div>
+
+  <!-- AI SEARCH TAB -->
+  <div id="panel-ai" class="panel">
+    <div class="search-box">
+      <div style="font-size:14px;font-weight:600;">AI funding search</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:4px">Ask anything about open grants — powered by live web search.</p>
+      <div class="search-row">
+        <input type="text" id="ai-query" placeholder="e.g. Are there open CITB grants for first aid training?" onkeydown="if(event.key==='Enter')runSearch()">
+        <button class="btn" onclick="runSearch()" id="search-btn">Search</button>
+      </div>
+      <div class="quick-btns">
+        <button class="btn-sm" onclick="setQ('Open grants for employment training charities in Kent 2026')">Employment training Kent</button>
+        <button class="btn-sm" onclick="setQ('CSCS construction training grant funding UK 2026')">CSCS funding</button>
+        <button class="btn-sm" onclick="setQ('Back to work programme funding small charity Thanet')">Back to work Thanet</button>
+        <button class="btn-sm" onclick="setQ('First aid training charity grants UK open now')">First aid grants</button>
+        <button class="btn-sm" onclick="setQ('DWP employment programme contracts charities 2026')">DWP contracts</button>
+        <button class="btn-sm" onclick="setQ('Kent County Council community grants open 2026')">KCC grants</button>
+      </div>
+    </div>
+    <div id="ai-output" style="display:none"></div>
+  </div>
+
+  <!-- RESOURCES TAB -->
+  <div id="panel-resources" class="panel">
+    <div class="section-label">Grant databases &amp; search tools</div>
+    <div class="resource-grid" style="margin-bottom:20px">
+      <div class="resource-card">
+        <a href="https://grantnav.threesixtygiving.org/search?q=training+Kent&limit=20" target="_blank">GrantNav — 360Giving ↗</a>
+        <p>Search historical grants from 200+ UK funders. See who has previously funded work like yours in Kent.</p>
+      </div>
+      <div class="resource-card">
+        <a href="https://kentcf.org.uk/funding/" target="_blank">Kent Community Foundation ↗</a>
+        <p>Primary local funding gateway for Kent. Always check for currently open funds and eligibility.</p>
+      </div>
+      <div class="resource-card">
+        <a href="https://www.charityexcellence.co.uk/home/charity-funding-and-grants/" target="_blank">Charity Excellence ↗</a>
+        <p>Free funding finder with filters for small charities, location, and activity type.</p>
+      </div>
+      <div class="resource-card">
+        <a href="https://www.gov.uk/guidance/find-a-grant" target="_blank">Find a Grant — GOV.UK ↗</a>
+        <p>Official UK government grant database including DWP, DCMS and UKSPF programmes.</p>
+      </div>
+      <div class="resource-card">
+        <a href="https://www.fundingcentral.org.uk/" target="_blank">Funding Central ↗</a>
+        <p>Free for organisations under £1m income. Searchable database of grants by sector and region.</p>
+      </div>
+      <div class="resource-card">
+        <a href="https://www.strongerkentcommunities.org.uk/funding" target="_blank">Stronger Kent Communities ↗</a>
+        <p>Local Kent and Medway funding bulletin. Subscribe for weekly updates of new open grants.</p>
+      </div>
+    </div>
+    <div class="section-label">About this tool</div>
+    <div class="api-note">
+      <strong>How it works:</strong> This app updates automatically every morning at 8am UK time. A scheduled script calls the Anthropic Claude API with web search enabled to find currently open grants matching your charity's profile. Results are saved and displayed in the "Today's opportunities" tab. The main funder list is curated and reviewed periodically. The AI Search tab lets you ask specific questions in real time. Built using GitHub Actions (scheduler), Vercel (hosting), and the 360Giving open API for historical grant data.
+    </div>
+  </div>
+
+  <footer>
+    Funding Finder · Thanet, Kent · Updates daily at 8am ·
+    <a href="https://grantnav.threesixtygiving.org" target="_blank" style="color:var(--text-muted)">Powered in part by 360Giving open data</a>
+  </footer>
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+    if (id === 'live') loadLiveData();
+  }
+
+  async function loadLiveData() {
+    try {
+      const res = await fetch('./data.json?t=' + Date.now());
+      if (!res.ok) throw new Error('No data');
+      const data = await res.json();
+      renderLiveData(data);
+      updateFreshness(data.updated_at);
+    } catch {
+      document.getElementById('live-content').innerHTML =
+        '<div class="alert amber">Could not load today\'s opportunities. The daily update may still be running. Try again in a few minutes, or check the AI Search tab.</div>';
+    }
+  }
+
+  function renderLiveData(data) {
+    const div = document.getElementById('live-content');
+    if (!data.opportunities || !data.opportunities.length) {
+      div.innerHTML = '<div class="alert info">No new opportunities found today matching your profile. Check back tomorrow — the list updates at 8am.</div>';
+      return;
+    }
+    let html = `<div class="alert">Found ${data.opportunities.length} opportunities as of ${formatDate(data.updated_at)}</div>`;
+    html += '<div class="funder-grid">';
+    data.opportunities.forEach(op => {
+      html += `<div class="card high">
+        <div class="card-header"><div class="card-name">${esc(op.name)}</div><span class="badge new">New today</span></div>
+        <p class="card-desc">${esc(op.description)}</p>
+        <div class="tags">${(op.tags||[]).map(t=>`<span class="tag new">${esc(t)}</span>`).join('')}</div>
+        <div class="card-meta">${esc(op.amount || '')}${op.deadline ? ' · Deadline: '+esc(op.deadline) : ''}</div>
+        ${op.url ? `<a class="card-link" href="${esc(op.url)}" target="_blank">Apply / find out more ↗</a>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+    if (data.summary) {
+      html += `<div class="alert info" style="margin-top:14px">${esc(data.summary)}</div>`;
+    }
+    div.innerHTML = html;
+  }
+
+  function updateFreshness(ts) {
+    if (!ts) return;
+    const d = new Date(ts);
+    const now = new Date();
+    const ageH = (now - d) / 3600000;
+    const dot = document.getElementById('freshness-dot');
+    const label = document.getElementById('last-updated-text');
+    label.textContent = 'Updated ' + formatDate(ts);
+    if (ageH > 26) { dot.classList.add('stale'); }
+  }
+
+  function formatDate(ts) {
+    if (!ts) return 'unknown';
+    try {
+      return new Date(ts).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+    } catch { return ts; }
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function setQ(q) {
+    document.getElementById('ai-query').value = q;
+    switchTab('ai', document.querySelectorAll('.tab')[2]);
+    runSearch();
+  }
+
+  async function runSearch() {
+    const query = document.getElementById('ai-query').value.trim();
+    if (!query) return;
+    const out = document.getElementById('ai-output');
+    const btn = document.getElementById('search-btn');
+    out.style.display = 'block';
+    btn.disabled = true;
+    out.className = 'ai-result';
+    out.innerHTML = '<div class="loading"><div class="spinner"></div>Searching with live web data...</div>';
+
+    const systemPrompt = `You are a UK charity funding expert. You are helping a small charity (5 employees) based in Thanet, Kent. They offer: employment training, back-to-work programmes, CSCS construction training, first aid training, and community programmes. Answer funding questions concisely and practically. Use web search for current information. For each opportunity include: funder name, grant size, eligibility requirements, deadline if known, and how to apply. Be specific about Kent/Thanet relevance. Format with clear headings.`;
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: systemPrompt,
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: [{ role: 'user', content: query }]
+        })
+      });
+      const data = await resp.json();
+      const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('\n');
+      out.innerHTML = text ? renderMd(text) : '<p style="color:var(--text-secondary)">No results returned. Try rephrasing.</p>';
+    } catch {
+      out.innerHTML = '<p style="color:#c0392b">Search failed. Please try again.</p>';
+    }
+    btn.disabled = false;
+  }
+
+  function renderMd(t) {
+    return t
+      .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^# (.+)$/gm, '<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/^- (.+)$/gm, '<li>$1</li>')
+      .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+      .split('\n').map(l => l.match(/^<[hul]/) ? l : (l.trim() ? '<p>' + l + '</p>' : '')).join('');
+  }
+
+  // Load freshness indicator on page load
+  fetch('./data.json?t=' + Date.now())
+    .then(r => r.ok ? r.json() : null)
+    .then(d => { if (d && d.updated_at) updateFreshness(d.updated_at); else { document.getElementById('last-updated-text').textContent = 'Updates daily at 8am'; } })
+    .catch(() => { document.getElementById('last-updated-text').textContent = 'Updates daily at 8am'; });
+</script>
+</body>
+</html>

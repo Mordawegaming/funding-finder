@@ -1,0 +1,14 @@
+{
+  "name": "charity-funding-finder",
+  "version": "1.0.0",
+  "description": "Daily funding opportunity finder for Thanet training charity",
+  "scripts": {
+    "update": "node update_grants.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
