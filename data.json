@@ -1,6 +1,259 @@
 {
-  "updated_at": null,
-  "opportunities": [],
+  "updated_at": "2026-04-27T22:24:41.282Z",
+  "updated_date": "Monday, 27 April 2026",
+  "opportunities": [
+    {
+      "name": "National Lottery Community Fund - Awards for All England",
+      "description": "Grassroots community funding for projects that build strong relationships in communities, improve spaces, help people reach their potential, and support those facing cost-of-living challenges. Simple application process with good success rates.",
+      "amount": "£300-£10,000",
+      "deadline": "Rolling",
+      "tags": [
+        "community",
+        "core-costs",
+        "quick-decision",
+        "accessible"
+      ],
+      "url": "https://www.tnlcommunityfund.org.uk/funding/under10k",
+      "match": "high",
+      "location_scope": "national",
+      "size_category": "small",
+      "fund_types": [
+        "training",
+        "employment",
+        "community",
+        "core-costs"
+      ],
+      "funder_priorities": "The National Lottery Community Fund focuses on poverty, disadvantage and discrimination. They back community-led projects that help people connect, grow and build better futures with missions around bringing communities together, supporting children and young people, enabling healthier lives, and environmental sustainability.",
+      "what_they_fund": "Activities that benefit and involve the community including costs for staff, volunteers, training, equipment, activities, small building works, and running costs. They prioritise groups with smaller incomes and projects that put people at the centre.",
+      "what_they_dont_fund": "Services that statutory bodies have a responsibility to deliver, individual benefit, activities promoting political or religious beliefs, large capital projects requiring planning permission.",
+      "application_process": "Apply online at any time. Most applicants hear back within 12 weeks. No deadlines - rolling programme. Requires bank account with two signatories and basic governance in place."
+    },
+    {
+      "name": "Greggs Foundation Community Action Fund Round 3",
+      "description": "Three-year grants for UK organisations tackling challenges facing local communities, with priority given to those supporting people to access effective community services, reduce isolation and build knowledge, confidence and opportunities.",
+      "amount": "£20,000 per year for up to 3 years",
+      "deadline": "8 May 2026 at noon",
+      "tags": [
+        "community",
+        "multi-year",
+        "core-costs-eligible",
+        "competitive"
+      ],
+      "url": "https://www.greggsfoundation.org.uk/grants/community-funding",
+      "match": "high",
+      "location_scope": "national",
+      "size_category": "large",
+      "fund_types": [
+        "community",
+        "employment",
+        "training",
+        "core-costs"
+      ],
+      "funder_priorities": "Greggs Foundation understands different locations face real challenges and prioritises organisations supporting people to access a range of effective community services to widen networks, reduce isolation and build knowledge, confidence and opportunities. They accept applications for core running costs.",
+      "what_they_fund": "Core costs, project costs, and community services including employment support, training programmes, food provision, and activities that reduce isolation. Must be based in their geographical focus areas which vary by round. Round 3 has specific eligible locations only.",
+      "what_they_dont_fund": "Check specific exclusions on website. Programme is highly competitive with approximately 13% success rate (1 in 8 applications funded).",
+      "application_process": "Check website for Round 3 eligible locations. Single-stage online application. Closes 8 May 2026 at noon. Highly competitive - demonstrate clear understanding of local issues and strong track record of delivery."
+    },
+    {
+      "name": "King Charles III Charitable Fund Small Grants Programme",
+      "description": "Small grants for UK registered non-profits working in environment and countryside themes (current round April-May 2026), with rotating themes covering social inclusion, health, education, heritage and conservation throughout the year.",
+      "amount": "Up to £3,000 per year for up to 3 years (max £9,000 total)",
+      "deadline": "7 May 2026 at 12 noon (Environment & Countryside round)",
+      "tags": [
+        "environment",
+        "countryside",
+        "small-charity",
+        "short-window"
+      ],
+      "url": "https://www.kccf.org.uk/small-grants/",
+      "match": "medium",
+      "location_scope": "national",
+      "size_category": "small",
+      "fund_types": [
+        "community",
+        "core-costs"
+      ],
+      "funder_priorities": "Guided by the Founder's interests, KCCF focuses on disadvantaged communities (both urban and rural) working across six themes: environment, countryside, education, heritage and conservation, social inclusion, and health and wellbeing. They prioritise work that creates opportunities where it's needed most.",
+      "what_they_fund": "Project costs for organisations with income between £25,000-£500,000. Current round (23 April - 7 May) is for Environment and Countryside work only. Future rounds cover other themes. Revenue costs including staffing and running costs.",
+      "what_they_dont_fund": "Capital expenditure (except heritage/conservation projects), food waste/poverty work (separate programme), organisations with late reporting history, work duplicating royal charities (King's Foundation, King's Trust, Royal Foundation).",
+      "application_process": "Complete eligibility quiz to receive unique application link. Opens 9am 23 April, closes 12 noon 7 May 2026. Themes rotate - check website for future funding rounds in other areas."
+    },
+    {
+      "name": "Asda Foundation Local Community Spaces Fund",
+      "description": "Grants for safe and welcoming community spaces that bring people together, connect communities and address loneliness and isolation across the UK.",
+      "amount": "£10,000-£20,000",
+      "deadline": "28 April 2026",
+      "tags": [
+        "community-spaces",
+        "loneliness",
+        "infrastructure",
+        "deadline-approaching"
+      ],
+      "url": "https://www.asdafoundation.org/",
+      "match": "high",
+      "location_scope": "national",
+      "size_category": "medium",
+      "fund_types": [
+        "community",
+        "core-costs",
+        "capital"
+      ],
+      "funder_priorities": "Asda Foundation supports community spaces that are safe, welcoming and bring people together. They focus on connecting communities and tackling loneliness and isolation, ensuring local people have places to meet and build relationships.",
+      "what_they_fund": "Community spaces, venues, facilities and activities that provide safe places for people to meet and be together. Can include building costs, equipment, running costs and activities that reduce isolation.",
+      "what_they_dont_fund": "Check specific exclusions on Asda Foundation website for full details.",
+      "application_process": "Online application. Deadline 28 April 2026. Must demonstrate how the space will bring community together and address isolation."
+    },
+    {
+      "name": "The Fore Unrestricted Grants",
+      "description": "Unrestricted grants for small charities and CICs to strengthen organisations internally and help them take the next step in growth or sustainability. Includes funding plus non-financial support.",
+      "amount": "Up to £45,000 over 1-3 years",
+      "deadline": "Registration 8-15 July 2026 at 12pm (Autumn 2026 round)",
+      "tags": [
+        "unrestricted",
+        "capacity-building",
+        "small-charity",
+        "development"
+      ],
+      "url": "https://www.thefore.org/",
+      "match": "medium",
+      "location_scope": "national",
+      "size_category": "medium",
+      "fund_types": [
+        "core-costs",
+        "training"
+      ],
+      "funder_priorities": "The Fore focuses on strengthening small organisations' internal capacity to help them grow, become more sustainable or more efficient. They look for organisations ready to take a clear next step forward rather than funding on-going operations.",
+      "what_they_fund": "Unrestricted funding that can be used for any purpose to strengthen the organisation internally - might help you grow, increase capacity, serve new beneficiary groups, become more sustainable or efficient. Not for ongoing operations.",
+      "what_they_dont_fund": "General running costs for maintaining current activity, capital projects, retrospective funding, individuals, statutory organisations.",
+      "application_process": "Register during short window (8-15 July 2026). If eligible, invited to full application. Includes non-financial support alongside grant. Competitive process."
+    },
+    {
+      "name": "BBC Children in Need - Core and Project Grants",
+      "description": "Core and project funding for not-for-profit organisations working with disadvantaged children and young people aged 0-18 across the UK, focusing on building positive relationships that strengthen children's wellbeing.",
+      "amount": "£1,000-£40,000 per year for up to 3 years",
+      "deadline": "Rolling - Expression of Interest can be submitted anytime",
+      "tags": [
+        "children",
+        "young-people",
+        "core-costs",
+        "project-costs"
+      ],
+      "url": "https://www.bbcchildreninneed.co.uk/grants/apply/",
+      "match": "high",
+      "location_scope": "national",
+      "size_category": "medium",
+      "fund_types": [
+        "community",
+        "training",
+        "employment",
+        "core-costs"
+      ],
+      "funder_priorities": "BBC Children in Need invests in positive relationships that strengthen children's wellbeing - helping disadvantaged children facing poverty, mental health issues, disability, family challenges and social injustice. They focus on work that fosters belonging, builds life skills, coping strategies and access to opportunities.",
+      "what_they_fund": "Project costs (time-limited specific activities) or core costs (essential organisational running costs). Must support disadvantaged children 0-18 in the heart of communities. Applications under £15,000 receive quicker decisions. Must involve children and young people in planning and delivery.",
+      "what_they_dont_fund": "Mainstream schools (unless registered charity), statutory services, work primarily benefiting adults, general appeals, medical research, animal welfare.",
+      "application_process": "Must attend a funding session before applying. Submit Expression of Interest online (no deadline). If eligible, invited to full application (120 days to complete). Two grant panel meetings per year. Currently 1 in 6 applications funded."
+    },
+    {
+      "name": "Leathersellers' Main Charity Grants Programme (ACEs)",
+      "description": "Five-year programme helping prevent and address the harm of Adverse Childhood Experiences (ACEs). Grants for UK-registered charities supporting children, young people and parents affected by ACEs and mental illness.",
+      "amount": "Up to £25,000 per grant",
+      "deadline": "Rolling programme",
+      "tags": [
+        "children",
+        "trauma-informed",
+        "ACEs",
+        "mental-health"
+      ],
+      "url": "https://www.leathersellers.co.uk/",
+      "match": "medium",
+      "location_scope": "national",
+      "size_category": "medium",
+      "fund_types": [
+        "community",
+        "training"
+      ],
+      "funder_priorities": "The Leathersellers' focus on preventing and addressing harm from Adverse Childhood Experiences. They support children and young people recovering from ACEs and parents affected by ACEs, mental illness and other challenges, using trauma-informed approaches.",
+      "what_they_fund": "Support for children, young people and families affected by ACEs including mental health support, trauma recovery, parenting support and preventative interventions. Must be trauma-informed approach.",
+      "what_they_dont_fund": "Check website for specific exclusions and eligibility criteria.",
+      "application_process": "Rolling programme - check website for current status and application details. In fifth year so check if still accepting new applications."
+    },
+    {
+      "name": "Skinners' Charity - Young People Moving into Employment (London & Kent)",
+      "description": "Grants for registered charities and not-for-profit organisations in London and Kent helping young people from low-income backgrounds overcome poverty and disadvantage to move into employment, training or education.",
+      "amount": "Up to £10,000",
+      "deadline": "Check website",
+      "tags": [
+        "employment",
+        "young-people",
+        "Kent",
+        "London",
+        "training"
+      ],
+      "url": "https://www.skinners.org.uk/",
+      "match": "high",
+      "location_scope": "regional",
+      "size_category": "small",
+      "fund_types": [
+        "employment",
+        "training"
+      ],
+      "funder_priorities": "The Skinners' Charity focuses on helping disadvantaged young people from low-income backgrounds move into employment, training and education. They support work that helps young people overcome barriers of poverty and disadvantage in London and Kent specifically.",
+      "what_they_fund": "Programmes helping young people move into employment, training or education. Covers costs like accredited course fees, tools, uniforms, equipment, transport and other barriers to accessing opportunities. Must benefit young people in London or Kent.",
+      "what_they_dont_fund": "Work outside London and Kent, activities not focused on employment/training pathways.",
+      "application_process": "Check Skinners' Charity website for current application process and deadlines. Must demonstrate work in London or Kent with low-income young people."
+    },
+    {
+      "name": "Kent Community Foundation - Multiple Funds for Charities",
+      "description": "Multiple grant programmes supporting charities and community groups across Kent and Medway working on issues including mental health, community wellbeing, poverty, and support for disadvantaged groups. Local knowledge and responsive funding.",
+      "amount": "Varies by fund - typically £500-£15,000",
+      "deadline": "Multiple funds with different deadlines - check website",
+      "tags": [
+        "Kent",
+        "local",
+        "multiple-funds",
+        "responsive"
+      ],
+      "url": "https://kentcf.org.uk/funding/",
+      "match": "high",
+      "location_scope": "local",
+      "size_category": "small",
+      "fund_types": [
+        "community",
+        "training",
+        "employment",
+        "core-costs"
+      ],
+      "funder_priorities": "Kent Community Foundation has distributed over £60 million to grassroots charities in Kent and Medway. They focus on local issues including mental health, poverty, community wellbeing, care leavers, and supporting disadvantaged communities with deep local knowledge.",
+      "what_they_fund": "Wide range of charitable purposes across Kent and Medway. Multiple funds available supporting different themes. Core costs often eligible. They particularly support small grassroots organisations making local impact. Must serve Kent or Medway residents.",
+      "what_they_dont_fund": "Statutory organisations (unless clearly outside state obligations), schools directly (but PTFAs/Friends groups can apply), organisations with unequal PSC control in CICs/Companies.",
+      "application_process": "Check website for currently open funds. Each fund has own criteria and deadlines. Friendly grants team available to discuss applications. Use eligibility checker before applying. Hundreds of organisations funded annually."
+    },
+    {
+      "name": "Colyer-Fergusson Charitable Trust - Investing in Communities (Kent)",
+      "description": "Grants to build the capacity of community organisations and local charities working with vulnerable people in Kent, helping them deliver sustainable face-to-face services.",
+      "amount": "Up to £15,000",
+      "deadline": "Check website",
+      "tags": [
+        "Kent",
+        "capacity-building",
+        "vulnerable-people",
+        "sustainability"
+      ],
+      "url": "https://www.cftrust.org.uk/",
+      "match": "high",
+      "location_scope": "local",
+      "size_category": "medium",
+      "fund_types": [
+        "community",
+        "training",
+        "core-costs"
+      ],
+      "funder_priorities": "Colyer-Fergusson focuses on building the capacity of Kent-based organisations working with vulnerable people. They want to help local charities deliver sustainable, face-to-face services by strengthening organisational infrastructure and capability.",
+      "what_they_fund": "Capacity building for Kent charities working with vulnerable people - can include equipment, training, systems, staffing costs that strengthen the organisation's ability to deliver sustainable services. Face-to-face delivery emphasis.",
+      "what_they_dont_fund": "Organisations outside Kent, work not focused on vulnerable people, purely capital projects without capacity building element.",
+      "application_process": "Check Colyer-Fergusson website for application process and current status. Kent-based organisations only. Must demonstrate work with vulnerable people and how funding builds capacity."
+    }
+  ],
   "summary": null,
-  "count": 0
+  "count": 10
 }
