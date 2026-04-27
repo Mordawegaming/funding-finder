@@ -69,9 +69,24 @@ messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all c
   const rawText = textBlocks.map(b => b.text).join('\n');
   const cleaned = rawText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
   const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) throw new Error('No JSON found');
+if (!jsonMatch) throw new Error('No JSON found');
 
-  const parsed = JSON.parse(jsonMatch[0]);
+let jsonStr = jsonMatch[0];
+
+// Fix truncated JSON by closing any open arrays/objects
+try {
+  JSON.parse(jsonStr);
+} catch(e) {
+  // Count unclosed brackets and close them
+  const opens = (jsonStr.match(/\[/g)||[]).length - (jsonStr.match(/\]/g)||[]).length;
+  const openBraces = (jsonStr.match(/\{/g)||[]).length - (jsonStr.match(/\}/g)||[]).length;
+  // Remove trailing comma if present
+  jsonStr = jsonStr.replace(/,\s*$/, '');
+  for (let i = 0; i < opens; i++) jsonStr += ']';
+  for (let i = 0; i < openBraces; i++) jsonStr += '}';
+}
+
+const parsed = JSON.parse(jsonStr);
   if (!parsed.opportunities || !Array.isArray(parsed.opportunities)) throw new Error('Invalid structure');
 
   const output = {
