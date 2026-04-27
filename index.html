@@ -348,7 +348,7 @@
 
   async function loadLiveData() {
     try {
-      const res = await fetch('./data.json?t=' + Date.now());
+      const res = await fetch('https://raw.githubusercontent.com/Mordawegaming/funding-finder/main/data.json?t=' + Date.now());
       if (!res.ok) throw new Error('No data');
       const data = await res.json();
       renderLiveData(data);
@@ -458,7 +458,7 @@
   }
 
   // Load freshness indicator on page load
-  fetch('./data.json?t=' + Date.now())
+  fetch('https://raw.githubusercontent.com/Mordawegaming/funding-finder/main/data.json?t=' + Date.now())
     .then(r => r.ok ? r.json() : null)
     .then(d => { if (d && d.updated_at) updateFreshness(d.updated_at); else { document.getElementById('last-updated-text').textContent = 'Updates daily at 8am'; } })
     .catch(() => { document.getElementById('last-updated-text').textContent = 'Updates daily at 8am'; });
