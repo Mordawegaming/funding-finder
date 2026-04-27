@@ -313,9 +313,10 @@
     applyFilters();
   }
 
-  function cardHTML(o) {
+function cardHTML(o) {
     const tags = (o.tags||[]).slice(0,4).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
-    return `<div class="card ${o.match||'explore'}" onclick='openModal(${JSON.stringify(JSON.stringify(o))})'>
+    const idx = allOpps.indexOf(o);
+    return `<div class="card ${o.match||'explore'}" onclick="openModal(${idx})">
       <div class="card-top"><div class="card-name">${esc(o.name)}</div><span class="badge ${o.match||'explore'}">${matchLabel(o.match)}</span></div>
       <div class="card-desc">${esc(o.description)}</div>
       <div class="tags">${tags}</div>
