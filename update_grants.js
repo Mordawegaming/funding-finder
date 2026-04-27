@@ -55,7 +55,7 @@ async function updateGrants() {
       max_tokens: 4000,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all currently open UK charity grant funding. Return detailed JSON only — no markdown.` }]
+messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all currently open UK charity grant funding opportunities in the UK. You MUST return ONLY a raw JSON object. Do not use markdown. Do not use code fences. Do not write any explanation. Start your response with { and end with }. Nothing before the first { and nothing after the last }.` }]
     })
   });
 
