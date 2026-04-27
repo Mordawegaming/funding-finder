@@ -1,7 +1,110 @@
 {
-  "updated_at": null,
-  "updated_date": null,
-  "opportunities": [],
-  "summary": "Today's opportunities will appear here once the daily update runs at 8am.",
-  "count": 0
+  "updated_at": "2026-04-27T21:34:55.377Z",
+  "updated_date": "Monday, 27 April 2026",
+  "opportunities": [
+    {
+      "name": "National Lottery Community Fund (England)",
+      "description": "Supports projects that bring people together and improve communities. Ideal for employment training and community programmes. Rolling applications.",
+      "amount": "£300-£20,000",
+      "deadline": "Rolling",
+      "tags": [
+        "community",
+        "training",
+        "employment",
+        "Kent"
+      ],
+      "url": "https://www.tnlcommunityfund.org.uk/funding"
+    },
+    {
+      "name": "Skinners' Company - Young People's Vocational Development",
+      "description": "Priority funding for Kent-based charities helping NEET young people move into employment. Perfect fit for employment training programmes.",
+      "amount": "£10,000 per year (up to 3 years)",
+      "deadline": "Rolling (spring/autumn meetings)",
+      "tags": [
+        "employment",
+        "training",
+        "Kent",
+        "youth",
+        "vocational"
+      ],
+      "url": "https://skinners.org.uk"
+    },
+    {
+      "name": "Thomas Wall Trust",
+      "description": "Supports charities equipping disadvantaged adults with communication skills for employment. Must include accredited vocational qualifications.",
+      "amount": "Up to £5,000 (renewable for 3 years)",
+      "deadline": "Late July 2026",
+      "tags": [
+        "employment",
+        "adults",
+        "skills",
+        "training"
+      ],
+      "url": "https://www.thomaswalltrust.org.uk"
+    },
+    {
+      "name": "Goldsmiths' Foundation Open Grants",
+      "description": "Funds vocational skills and training in creative/craft industries. Could support construction trades like carpentry or specialist building skills.",
+      "amount": "£30,000-£50,000",
+      "deadline": "11 May 2026",
+      "tags": [
+        "vocational",
+        "skills",
+        "craft",
+        "construction"
+      ],
+      "url": "https://www.thegoldsmiths.co.uk/open-grants-fund"
+    },
+    {
+      "name": "Grocers' Charity Grant",
+      "description": "Small charity grants covering relief of hardship, employment support, and skills development. UK registered charities under £500k turnover.",
+      "amount": "Up to £5,000",
+      "deadline": "1 September 2026",
+      "tags": [
+        "small-charity",
+        "employment",
+        "skills"
+      ],
+      "url": "https://www.grocershall.co.uk"
+    },
+    {
+      "name": "King Charles III Small Grants Programme",
+      "description": "Environment and community grants for UK charities with £25k-£500k income. Could support sustainable construction training or community programmes.",
+      "amount": "Up to £3,000 per year (up to 3 years)",
+      "deadline": "7 May 2026",
+      "tags": [
+        "small-charity",
+        "community",
+        "environment"
+      ],
+      "url": "https://kingcharlescharitablefund.org"
+    },
+    {
+      "name": "Comic Relief - A Place to Belong",
+      "description": "Core flexible funding for organisations supporting vulnerable young people. Service delivery pathway for regions including Kent (East of England).",
+      "amount": "Up to £200,000 (over 3-5 years)",
+      "deadline": "30 April 2026 (12 noon)",
+      "tags": [
+        "youth",
+        "core-funding",
+        "employment",
+        "inclusion"
+      ],
+      "url": "https://www.comicrelief.com/funding"
+    },
+    {
+      "name": "Asda Foundation - Local Community Spaces",
+      "description": "Funding for community spaces bringing people together. Could support training facility improvements or community centre upgrades.",
+      "amount": "£10,000-£20,000",
+      "deadline": "28 April 2026",
+      "tags": [
+        "community",
+        "facilities",
+        "capital"
+      ],
+      "url": "https://www.asdafoundation.org"
+    }
+  ],
+  "summary": "Strong funding landscape for employment and training charities in Kent with multiple opportunities including local priority funding from Skinners' Company and National Lottery, plus sector-specific vocational training grants closing in May-September 2026.",
+  "count": 8
 }
