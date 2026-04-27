@@ -2,7 +2,7 @@
   "version": 2,
   "functions": {
     "api/generate-template.js": {
-      "maxDuration": 30
+      "maxDuration": 60
     }
   },
   "headers": [
