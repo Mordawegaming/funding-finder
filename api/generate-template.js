@@ -1,12 +1,12 @@
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const ANTHROPIC_API_KEY = process['env']['ANTHROPIC_API_KEY'];
-  if (!ANTHROPIC_API_KEY) return res.status(500).json({ error: 'API key not configured' });
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
 
   const { funder } = req.body;
   if (!funder) return res.status(400).json({ error: 'Funder data required' });
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const dontFund = funder.what_they_dont_fund || 'Not specified';
   const priorities = funder.funder_priorities || 'Not specified';
   const amount = funder.amount || 'Not specified';
-  const process = funder.application_process || 'Not specified';
+  const appProcess = funder.application_process || 'Not specified';
   const url = funder.url || '';
 
   const prompt = `You are an expert bid writer helping a small charity apply for funding.
@@ -37,7 +37,7 @@ What they fund: ${whatFund}
 What they do NOT fund: ${dontFund}
 Funder priorities: ${priorities}
 Grant amount: ${amount}
-Application process: ${process}
+Application process: ${appProcess}
 Website: ${url}
 
 Write a bespoke funding application template. Use the funder's OWN language and terminology throughout. Mirror their words back to them. Make every section specific to what THIS funder cares about. Use [SQUARE BRACKETS] for parts they need to fill in.
@@ -80,7 +80,7 @@ TIPS FOR THIS APPLICATION:
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
@@ -90,12 +90,18 @@ TIPS FOR THIS APPLICATION:
       })
     });
 
-    if (!response.ok) return res.status(500).json({ error: 'Failed to generate template' });
+    if (!response.ok) {
+      const errText = await response.text();
+      return res.status(500).json({ error: 'Anthropic error: ' + errText });
+    }
+
     const data = await response.json();
     const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('\n');
     return res.status(200).json({ template: text });
 
   } catch(err) {
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({ error: 'Server error: ' + err.message });
   }
-}
+};
+
+module.exports = handler;
