@@ -14,32 +14,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Run grant update
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          echo "Checking API key is set..."
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "ERROR: ANTHROPIC_API_KEY is not set"
-            exit 1
-          fi
-          echo "API key found, running update..."
-          node update_grants.js
+        run: node update_grants.js
 
       - name: Commit updated data.json
         run: |
-          git config --local user.email "grants-bot@charity-funding-finder.local"
+          git config --local user.email "grants-bot@funding-finder.local"
           git config --local user.name "Grants Update Bot"
           git add data.json
           git diff --staged --quiet || git commit -m "Daily grants update: $(date '+%d %b %Y %H:%M UTC')"
