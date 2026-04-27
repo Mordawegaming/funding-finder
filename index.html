@@ -327,8 +327,8 @@ function cardHTML(o) {
 
   function matchLabel(m) { return m==='high'?'High match':m==='medium'?'Medium match':'Worth exploring'; }
 
-  function openModal(jsonStr) {
-    const o = JSON.parse(jsonStr);
+  function openModal(idx) {
+    const o = allOpps[idx];
     currentFunder = o;
     document.getElementById('m-name').textContent = o.name;
     document.getElementById('m-priorities').textContent = '★ Funder priorities: ' + (o.funder_priorities||'See website for details.');
