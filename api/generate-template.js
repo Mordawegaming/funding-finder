@@ -11,35 +11,39 @@ export default async function handler(req, res) {
   const { funder } = req.body;
   if (!funder) return res.status(400).json({ error: 'Funder data required' });
 
-  const CHARITY_PROFILE = `
-Organisation: A small registered charity based in Thanet, Kent
-Staff: 5 employees
-Services: Employment training, back-to-work programmes, CSCS construction training, first aid training, community programmes
-Beneficiaries: Unemployed adults, people returning to work, local community members in Thanet
-Location: Thanet, Kent — one of the most deprived coastal areas in England
-Annual income: Under £250,000`;
+  const name = funder.name || 'Unknown funder';
+  const desc = funder.description || '';
+  const whatFund = funder.what_they_fund || 'Not specified';
+  const dontFund = funder.what_they_dont_fund || 'Not specified';
+  const priorities = funder.funder_priorities || 'Not specified';
+  const amount = funder.amount || 'Not specified';
+  const process = funder.application_process || 'Not specified';
+  const url = funder.url || '';
 
   const prompt = `You are an expert bid writer helping a small charity apply for funding.
 
 CHARITY PROFILE:
-${CHARITY_PROFILE}
+Organisation: A small registered charity based in Thanet, Kent
+Staff: 5 employees
+Services: Employment training, back-to-work programmes, CSCS construction training, first aid training, community programmes
+Beneficiaries: Unemployed adults, people returning to work, local community members in Thanet
+Location: Thanet, Kent, one of the most deprived coastal areas in England
+Annual income: Under £250,000
 
 FUNDER DETAILS:
-Name: ${funder.name}
-Description: ${funder.description}
-What they fund: ${funder.what_they_fund || 'Not specified'}
-What they do NOT fund: ${funder.what_they_dont_fund || 'Not specified'}
-Funder priorities: ${funder.funder_priorities || 'Not specified'}
-Grant amount: ${funder.amount}
-Application process: ${funder.application_process || 'Not specified'}
-Website: ${funder.url}
+Name: ${name}
+Description: ${desc}
+What they fund: ${whatFund}
+What they do NOT fund: ${dontFund}
+Funder priorities: ${priorities}
+Grant amount: ${amount}
+Application process: ${process}
+Website: ${url}
 
 Write a bespoke funding application template. Use the funder's OWN language and terminology throughout. Mirror their words back to them. Make every section specific to what THIS funder cares about. Use [SQUARE BRACKETS] for parts they need to fill in.
 
----
-BID TEMPLATE: ${funder.name}
+BID TEMPLATE: ${name}
 Grant amount applying for: [AMOUNT]
----
 
 1. ABOUT OUR ORGANISATION
 [2-3 paragraphs tailored to what this funder values]
@@ -68,10 +72,8 @@ Grant amount applying for: [AMOUNT]
 9. WHY THIS FUNDER IS THE RIGHT PARTNER
 [1 paragraph connecting the charity's mission to this funder's vision]
 
----
 TIPS FOR THIS APPLICATION:
-[3-5 specific tips for applying to this particular funder]
----`;
+[3-5 specific tips for applying to this particular funder]`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
