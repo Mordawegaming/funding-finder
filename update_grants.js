@@ -10,7 +10,7 @@ const SYSTEM_PROMPT = `You are a UK charity funding research expert. Search broa
 
 The charity using this tool is in Thanet, Kent with 5 employees offering employment training, back-to-work programmes, CSCS construction training, first aid training, and community programmes. But find ALL types of UK funding — they want to see the full landscape and filter it themselves.
 
-Search for 15-20 currently open opportunities covering local, regional and national funders of all sizes.
+Search for 20-30 currently open opportunities covering local, regional and national funders of all sizes.
 
 Return ONLY raw JSON with no markdown, no code fences, just the JSON object:
 {
@@ -52,10 +52,10 @@ async function updateGrants() {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-5',
-      max_tokens: 4000,
+      max_tokens: 6000,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all currently open UK charity grant funding opportunities in the UK. You MUST return ONLY a raw JSON object. Do not use markdown. Do not use code fences. Do not write any explanation. Start your response with { and end with }. Nothing before the first { and nothing after the last }.` }]
+messages: [{ role: 'user', content: `Today is ${today}. Search broadly for all currently open UK charity grant funding opportunities. I need a MINIMUM of 20 opportunities, ideally 25. Search multiple times across different funder types - local Kent funders, national lottery, government funds, employment funders, construction funders, community funders, small grants, large grants, trust funds, corporate foundations. Return detailed JSON only — no markdown. Do not stop until you have at least 20 opportunities in the array.` }]
     })
   });
 
